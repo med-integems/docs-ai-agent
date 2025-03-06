@@ -1,0 +1,66 @@
+services:
+  app-server:
+    build:
+      context: . # Build the Dockerfile from the current directory
+      dockerfile: Dockerfile
+      target: prod 
+    image: report-agent-server
+    container_name:  report-agent-server-containr
+    ports:
+      - "${PORT}:${PORT}" # Ensure PORT is set in your environment
+    environment:
+      - DB_HOST=${DB_HOST}
+      - PORT=${PORT} # Ensure PORT is defined in `.env` or set when running `docker-compose`
+      - DB_PORT=${DB_PORT}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+    command: ["./main"] # Run the app in development mode
+    volumes:
+      - ./.env:/app/.env # Ensure the `.env` file is explicitly mounted if needed
+    depends_on:
+      - postgres
+      - redis
+
+  redis:
+    image: redis:7
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_stored_data:/data
+
+  postgres:
+    image: postgres:17
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: vidstractdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # caddy:
+  #   image: caddy:latest
+  #   container_name: caddy
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - ./Caddyfile:/etc/caddy/Caddyfile # Caddy configuration file
+  #     - ./docs:/app/docs # Mount static files
+  #     - caddy_data:/data # Data folder for Caddy
+  #     - caddy_config:/config # Config folder for Caddy
+  #   depends_on:  
+  #     - 127.0.0.1
+
+volumes:
+  postgres_data: {}
+  caddy_data: {}
+  caddy_config: {}
+  redis_stored_data: {}

@@ -1,0 +1,4 @@
+# HTTP to HTTPS redirection
+:80 {
+     reverse_proxy app-client:3000
+}

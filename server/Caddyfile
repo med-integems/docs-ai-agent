@@ -1,0 +1,10 @@
+
+# HTTP to HTTPS redirection
+:80 {
+    root /docs /app/docs
+    file_server
+
+    # Proxy API requests to the Go app
+    reverse_proxy 127.0.0.1:5000
+}
+
