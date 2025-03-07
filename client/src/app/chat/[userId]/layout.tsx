@@ -35,7 +35,7 @@ const getDocuments = async (userId: string): Promise<Document[]> => {
 
     const documents: Document[] = await response.json();
     return documents;
-  } catch  {
+  } catch {
     // console.error("Error fetching videos:", error);
     return []; // Return an empty array on error
   }

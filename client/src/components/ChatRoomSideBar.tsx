@@ -41,14 +41,7 @@ import {
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
-import {
-  Book,
-  HomeIcon,
-  Loader2,
-  LogOut,
-  Table,
-  Trash2
-} from "lucide-react";
+import { Book, HomeIcon, Loader2, LogOut, Table, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { use, useState } from "react";
 import MenuBar from "./MenuBar";
@@ -239,7 +232,7 @@ const SideBarDocumentItem = ({
       }
 
       setDeleted(true);
-    } catch{
+    } catch {
       // console.error(error);
       toast({
         description: `<p className="text-red-500">Couldn&apos;t delete video !!</p>`,

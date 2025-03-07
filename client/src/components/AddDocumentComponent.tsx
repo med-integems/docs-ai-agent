@@ -105,7 +105,9 @@ export default function AddDocumentModal() {
     } catch {
       // // console.error(error);
       toast({
-        description: <p className="text-red-500">Couldn&apos;t add document.</p>,
+        description: (
+          <p className="text-red-500">Couldn&apos;t add document.</p>
+        ),
       });
     } finally {
       setLoading(false);

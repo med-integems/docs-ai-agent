@@ -27,7 +27,7 @@ export function useCurrentUser() {
     try {
       const decoded: User = jwtDecode(cookies.token);
       setUser(decoded);
-    } catch{
+    } catch {
       // console.error("Invalid token:", error);
       removeCookie("token");
       setUser(null);

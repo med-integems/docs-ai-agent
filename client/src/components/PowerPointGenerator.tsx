@@ -38,7 +38,7 @@ export type SlideData = {
   type: ContentType;
   value: DataValue;
   options?: DataOption;
-  chatData?: {name:string,labels:any[],values:any[]}[]; // for chart
+  chatData?: { name: string; labels: any[]; values: any[] }[]; // for chart
 };
 
 export type SlideContent = {
@@ -88,24 +88,27 @@ const PowerPointGenerator: React.FC<PowerPointGeneratorProps> = ({
             );
             break;
           case "Chart":
-            const chatData = data?.chatData?.map(data => ({name:data?.name,values:data?.values || [],labels:data?.labels || []}))
+            const chatData = data?.chatData?.map((data) => ({
+              name: data?.name,
+              values: data?.values || [],
+              labels: data?.labels || [],
+            }));
 
-            console.log({chatData})
+            console.log({ chatData });
 
-            if(chatData){
+            if (chatData) {
               slide.addChart(
                 data.value as PptxGenJS.CHART_NAME,
                 chatData,
                 data.options as PptxGenJS.IChartOpts,
               );
             }
-          
         }
       });
 
       // Generate the file
     });
-    
+
     pptx.writeFile({ fileName });
   };
 

@@ -36,7 +36,7 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { Edit, Trash2} from "lucide-react";
+import { Edit, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface User {
@@ -106,9 +106,11 @@ const UsersTable: React.FC<UsersTableProps> = ({ userPromise }) => {
           description: <p className="text-red-500">Couldn&apos;t add user</p>,
         });
       }
-    } catch{
+    } catch {
       // console.error("Error adding user", err);
-      toast({ description: <p className="text-red-500">Couldn&apos;t add user</p> });
+      toast({
+        description: <p className="text-red-500">Couldn&apos;t add user</p>,
+      });
     }
   };
 
@@ -226,7 +228,9 @@ const UserTableRow: React.FC<{ user: User }> = ({ user: _user }) => {
         });
       } else {
         toast({
-          description: <p className="text-red-500">Couldn&apos;t delete user</p>,
+          description: (
+            <p className="text-red-500">Couldn&apos;t delete user</p>
+          ),
         });
       }
     } catch {
@@ -264,10 +268,12 @@ const UserTableRow: React.FC<{ user: User }> = ({ user: _user }) => {
         });
       } else {
         toast({
-          description: <p className="text-red-500">Couldn&apos;t update user</p>,
+          description: (
+            <p className="text-red-500">Couldn&apos;t update user</p>
+          ),
         });
       }
-    } catch{
+    } catch {
       // console.error("Error updating user", err);
       toast({
         description: <p className="text-red-500">Couldn&apos;t update user</p>,

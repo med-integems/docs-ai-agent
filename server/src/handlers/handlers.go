@@ -1805,8 +1805,6 @@ func (h *handler) chatWithAIDocs(w http.ResponseWriter, req *http.Request) {
 					"rotate": 90
 				  }
 				},
-				// For the Tree Diagram:
-				// Adjust connector arrows and line positions
 				{
 				  "type": "Shape",
 				  "value": "lineCallout",
@@ -1841,7 +1839,6 @@ func (h *handler) chatWithAIDocs(w http.ResponseWriter, req *http.Request) {
 					}
 				  }
 				},
-				// Vertical connectors for sub-nodes
 				{
 				  "type": "Shape",
 				  "value": "lineCallout",
@@ -1967,7 +1964,6 @@ func (h *handler) chatWithAIDocs(w http.ResponseWriter, req *http.Request) {
 					"fontSize": 12
 				}
 				},
-				// Flowchart connectors 
 				{
 				  "type": "Shape",
 				  "value": "lineCallout",
@@ -2554,111 +2550,111 @@ func (h *handler) chatWithAI(w http.ResponseWriter, req *http.Request) {
 
 
 			'''json
-					{
-		"excel": {
-			"columnLabels": [
-			"Order ID",
-			"Customer",
-			"Employee",
-			"Ship Name",
-			"City",
-			"Address"
-			],
-			"rowLabels": [
-			"Row 1",
-			"Row 2",
-			"Row 3",
-			"Row 4",
-			"Row 5",
-			"Row 6",
-			"Row 7",
-			"Row 8",
-			"Row 9",
-			"Row 10"
-			],
-			"data": [
-			[
-				{ "value": 10248 },
-				{ "value": "VINET" },
-				{ "value": 5 },
-				{ "value": "Vins et alcools Chevalier" },
-				{ "value": "Reims" },
-				{ "value": "59 rue de lAbbaye" }
-			],
-			[
-				{ "value": 10249 },
-				{ "value": "TOMSP" },
-				{ "value": 6 },
-				{ "value": "Toms Spezialitäten" },
-				{ "value": "Münster" },
-				{ "value": "Luisenstr. 48" }
-			],
-			[
-				{ "value": 10250 },
-				{ "value": "HANAR" },
-				{ "value": 4 },
-				{ "value": "Hanari Carnes" },
-				{ "value": "Rio de Janeiro" },
-				{ "value": "Rua do Paço, 67" }
-			],
-			[
-				{ "value": 10251 },
-				{ "value": "VICTE" },
-				{ "value": 3 },
-				{ "value": "Victuailles en stock" },
-				{ "value": "Lyon" },
-				{ "value": "2, rue du Commerce" }
-			],
-			[
-				{ "value": 10252 },
-				{ "value": "SUPRD" },
-				{ "value": 4 },
-				{ "value": "Suprêmes délices" },
-				{ "value": "Charleroi" },
-				{ "value": "Boulevard Tirou, 255" }
-			],
-			[
-				{ "value": 10253 },
-				{ "value": "ALFKI" },
-				{ "value": 7 },
-				{ "value": "Alfreds Futterkiste" },
-				{ "value": "Berlin" },
-				{ "value": "Obere Str. 57" }
-			],
-			[
-				{ "value": 10254 },
-				{ "value": "FRANK" },
-				{ "value": 1 },
-				{ "value": "Frankenversand" },
-				{ "value": "Mannheim" },
-				{ "value": "Berliner Platz 43" }
-			],
-			[
-				{ "value": 10255 },
-				{ "value": "BLONP" },
-				{ "value": 2 },
-				{ "value": "Blondel père et fils" },
-				{ "value": "Strasbourg" },
-				{ "value": "24, place Kléber" }
-			],
-			[
-				{ "value": 10256 },
-				{ "value": "FOLKO" },
-				{ "value": 8 },
-				{ "value": "Folk och fä HB" },
-				{ "value": "Bräcke" },
-				{ "value": "Åkergatan 24" }
-			],
-			[
-				{ "value": 10257 },
-				{ "value": "MEREP" },
-				{ "value": 9 },
-				{ "value": "Mère Paillarde" },
-				{ "value": "Montréal" },
-				{ "value": "43 rue St. Laurent" }
-			]
-			]
-		},
+			{
+				"excel": {
+					"columnLabels": [
+					"Order ID",
+					"Customer",
+					"Employee",
+					"Ship Name",
+					"City",
+					"Address"
+					],
+					"rowLabels": [
+					"Row 1",
+					"Row 2",
+					"Row 3",
+					"Row 4",
+					"Row 5",
+					"Row 6",
+					"Row 7",
+					"Row 8",
+					"Row 9",
+					"Row 10"
+					],
+					"data": [
+					[
+						{ "value": 10248 },
+						{ "value": "VINET" },
+						{ "value": 5 },
+						{ "value": "Vins et alcools Chevalier" },
+						{ "value": "Reims" },
+						{ "value": "59 rue de lAbbaye" }
+					],
+					[
+						{ "value": 10249 },
+						{ "value": "TOMSP" },
+						{ "value": 6 },
+						{ "value": "Toms Spezialitäten" },
+						{ "value": "Münster" },
+						{ "value": "Luisenstr. 48" }
+					],
+					[
+						{ "value": 10250 },
+						{ "value": "HANAR" },
+						{ "value": 4 },
+						{ "value": "Hanari Carnes" },
+						{ "value": "Rio de Janeiro" },
+						{ "value": "Rua do Paço, 67" }
+					],
+					[
+						{ "value": 10251 },
+						{ "value": "VICTE" },
+						{ "value": 3 },
+						{ "value": "Victuailles en stock" },
+						{ "value": "Lyon" },
+						{ "value": "2, rue du Commerce" }
+					],
+					[
+						{ "value": 10252 },
+						{ "value": "SUPRD" },
+						{ "value": 4 },
+						{ "value": "Suprêmes délices" },
+						{ "value": "Charleroi" },
+						{ "value": "Boulevard Tirou, 255" }
+					],
+					[
+						{ "value": 10253 },
+						{ "value": "ALFKI" },
+						{ "value": 7 },
+						{ "value": "Alfreds Futterkiste" },
+						{ "value": "Berlin" },
+						{ "value": "Obere Str. 57" }
+					],
+					[
+						{ "value": 10254 },
+						{ "value": "FRANK" },
+						{ "value": 1 },
+						{ "value": "Frankenversand" },
+						{ "value": "Mannheim" },
+						{ "value": "Berliner Platz 43" }
+					],
+					[
+						{ "value": 10255 },
+						{ "value": "BLONP" },
+						{ "value": 2 },
+						{ "value": "Blondel père et fils" },
+						{ "value": "Strasbourg" },
+						{ "value": "24, place Kléber" }
+					],
+					[
+						{ "value": 10256 },
+						{ "value": "FOLKO" },
+						{ "value": 8 },
+						{ "value": "Folk och fä HB" },
+						{ "value": "Bräcke" },
+						{ "value": "Åkergatan 24" }
+					],
+					[
+						{ "value": 10257 },
+						{ "value": "MEREP" },
+						{ "value": 9 },
+						{ "value": "Mère Paillarde" },
+						{ "value": "Montréal" },
+						{ "value": "43 rue St. Laurent" }
+					]
+					]
+				},
 		"slides": [
 			{
 			"data": [
@@ -3240,8 +3236,6 @@ func (h *handler) chatWithAI(w http.ResponseWriter, req *http.Request) {
 					"rotate": 90
 				  }
 				},
-				// For the Tree Diagram:
-				// Adjust connector arrows and line positions
 				{
 				  "type": "Shape",
 				  "value": "lineCallout",
@@ -3276,7 +3270,6 @@ func (h *handler) chatWithAI(w http.ResponseWriter, req *http.Request) {
 					}
 				  }
 				},
-				// Vertical connectors for sub-nodes
 				{
 				  "type": "Shape",
 				  "value": "lineCallout",
@@ -3402,7 +3395,6 @@ func (h *handler) chatWithAI(w http.ResponseWriter, req *http.Request) {
 					"fontSize": 12
 				}
 				},
-				// Flowchart connectors 
 				{
 				  "type": "Shape",
 				  "value": "lineCallout",

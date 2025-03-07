@@ -14,9 +14,7 @@ export const NavBar = () => {
         {/* Brand section */}
         <div className="flex flex-row">
           <h1 className="text-2xl text-white font-black md:text-3xl">Docs</h1>
-          <h1 className="text-2xl text-green-400 font-black md:text-3xl">
-            track
-          </h1>
+          <h1 className="text-2xl text-green-400 font-black md:text-3xl">AI</h1>
         </div>
 
         {/* <div className="flex items-center space-x-2">
@@ -28,17 +26,18 @@ export const NavBar = () => {
             className="m-2"
           />
         </div> */}
+        
         <div className="flex items-center space-x-4">
           {user.isAuthenticated && (
             <div className="flex flex-row items-center space-x-2 gap-2">
-              {/* <Button asChild className="border-white border bg-transparent"> */}
+              <Button asChild className="border-white border bg-transparent">
               <Link
                 href={`/chat/${user.user?.userId}`}
                 className="text-secondary"
               >
                 <Bot />
               </Link>
-              {/* </Button> */}
+              </Button>
 
               {user.user?.role?.includes("admin") && (
                 <Button asChild className="border-white border bg-transparent">

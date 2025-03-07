@@ -6,13 +6,11 @@ import {
   DialogContent,
   DialogFooter,
   DialogTitle,
-  DialogTrigger
+  DialogTrigger,
 } from "@/components/ui/dialog";
 import { useState } from "react";
 import DocViewer, { DocViewerRenderers } from "react-doc-viewer";
-import PowerPointGenerator, {
-  SlideContent
-} from "./PowerPointGenerator";
+import PowerPointGenerator, { SlideContent } from "./PowerPointGenerator";
 
 export default function PowerPointViewer({ fileUrl }: { fileUrl?: string }) {
   const [open, setOpen] = useState(false);

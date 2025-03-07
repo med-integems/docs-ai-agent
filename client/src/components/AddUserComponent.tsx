@@ -80,9 +80,7 @@ export default function AddUserModal() {
       // console.error(error);
       toast({
         description: (
-          <p className="text-red-500">
-            Couldn&apos;t sign up user.
-          </p>
+          <p className="text-red-500">Couldn&apos;t sign up user.</p>
         ),
       });
     } finally {

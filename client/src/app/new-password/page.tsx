@@ -105,8 +105,12 @@ export default function NewPasswordPage() {
         ),
       });
       router.push("/signin");
-    } catch  {
-      toast({ description: <p className="text-red-500">Couldn&apos;t update password.</p> });
+    } catch {
+      toast({
+        description: (
+          <p className="text-red-500">Couldn&apos;t update password.</p>
+        ),
+      });
     } finally {
       setLoading(false);
     }

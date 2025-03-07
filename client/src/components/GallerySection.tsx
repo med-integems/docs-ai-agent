@@ -13,7 +13,7 @@ const GallerySection: React.FC<GallerySectionProps> = ({
   description,
 }) => {
   return (
-    <div className=" flex flex-col items-center justify-center p-6 mb-10">
+    <div className=" flex flex-col items-center justify-center p-6 mb-10 bg-neutral-50">
       {/* Header */}
       {header && (
         <h2 className="text-2xl font-bold text-gray-800 mb-4">{header}</h2>
@@ -23,7 +23,7 @@ const GallerySection: React.FC<GallerySectionProps> = ({
       <div className="flex flex-col justify-center items-center gap-2 md:flex-row w-full p-5">
         <div className="relative bg-white w-full h-80 rounded-lg overflow-hidden shadow-xl m-4">
           <Image
-            src={imageSrc || "/chatroom1.png"}
+            src={imageSrc || "/s1.png"}
             alt="Chat Room Screenshot"
             fill
             objectFit="contain"
@@ -32,7 +32,7 @@ const GallerySection: React.FC<GallerySectionProps> = ({
         </div>
         <div className="relative bg-white w-full h-80 rounded-lg overflow-hidden shadow-xl m-4">
           <Image
-            src={imageSrc || "/UnReferencedChatRoom.png"}
+            src={imageSrc || "/s2.png"}
             alt="Chat Room Screenshot"
             fill
             objectFit="contain"

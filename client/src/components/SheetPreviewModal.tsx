@@ -12,7 +12,7 @@ import Spreadsheet from "react-spreadsheet";
 import { Button } from "./ui/button";
 
 export interface SheetPreviewModalProps {
-  data:any[];
+  data: any[];
   columnLabels: string[];
 }
 

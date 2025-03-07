@@ -99,8 +99,8 @@ export default function ChatRoom() {
       setSessionChat(false);
       setDocument(newDocument);
       fetchMessages(documentId); // Fetch messages for this video on load
-    }else{
-      setSessionChat(true)
+    } else {
+      setSessionChat(true);
     }
   }, [searchParams]);
 
@@ -117,7 +117,7 @@ export default function ChatRoom() {
       const data: Message[] = await response.json();
 
       setMessages(data);
-    } catch{
+    } catch {
       // console.error("Error fetching messages:", error);
     } finally {
       setLoadingMessages(false);
@@ -130,9 +130,7 @@ export default function ChatRoom() {
     if (!input.trim()) {
       toast({
         description: (
-          <p className="text-orange-500">
-          Please enter a text message.
-          </p>
+          <p className="text-orange-500">Please enter a text message.</p>
         ),
       });
       return;
@@ -197,7 +195,7 @@ export default function ChatRoom() {
       setFile(null);
 
       setMessages((prev) => [...prev, reply]);
-    } catch{
+    } catch {
       // console.error(error);
       setMessages((prev) => prev.slice(0, -1)); // Remove unsent message
       setErrorMsg(
@@ -208,16 +206,14 @@ export default function ChatRoom() {
     }
   };
 
-
-  const handleSessionChat = ()=>{
-    if (typeof window !== 'undefined') {
+  const handleSessionChat = () => {
+    if (typeof window !== "undefined") {
       const url = new URL(window.location.href);
-      url.search = '';
-      window.history.replaceState({}, '', url);
+      url.search = "";
+      window.history.replaceState({}, "", url);
     }
-    setSessionChat(true)
-    
-  }
+    setSessionChat(true);
+  };
 
   // Send a new message to the AI handler
   // const sendMessage = async (text: string) => {
@@ -290,22 +286,24 @@ export default function ChatRoom() {
 
   const clearMessages = async () => {
     if (!document?.documentId) return;
-    
+
     try {
       const response = await fetch(
         `http://127.0.0.1:5000/messages/sessions/${document.documentId}`,
         {
-          method: 'DELETE',
-        }
+          method: "DELETE",
+        },
       );
-      
+
       if (!response.ok) {
-        throw new Error('Failed to clear messages');
+        throw new Error("Failed to clear messages");
       }
-      
+
       setMessages([]);
       toast({
-        description:<p className="text-green-600">Messages cleared successfully.</p>,
+        description: (
+          <p className="text-green-600">Messages cleared successfully.</p>
+        ),
       });
     } catch {
       toast({
@@ -365,12 +363,11 @@ export default function ChatRoom() {
 
         {!loadingMessages &&
           messages?.map((message, index) => {
-           const file = messages[messages.lastIndexOf(message) - 1]?.contentType == "file"
-           return  (
-            <MessageItem key={index} message={message} file={file} />
-          )
-          })
-        }
+            const file =
+              messages[messages.lastIndexOf(message) - 1]?.contentType ==
+              "file";
+            return <MessageItem key={index} message={message} file={file} />;
+          })}
 
         {errorMsg && (
           <div
@@ -403,46 +400,46 @@ export default function ChatRoom() {
       </div>
       {/* Input area */}
       <div className="flex m-5 mt-2 items-start p-4 space-x-2 bg-white shadow-lg rounded-3xl border-2 border-transparent focus-within:border-primary">
-      {file && fileData && fileData.fileType.startsWith("image") && (
-            <div className="relative w-8 h-8 rounded overflow-hidden z-50">
-              <Button
-                variant="ghost"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setFile(null);
-                }}
-                className="absolute inset-0 z-20 hover:bg-black/20 hover:text-white"
-              >
-                <X />
-              </Button>
-              <Image
-                src={fileData.uri}
-                fill
-                alt="Uploaded file preview"
-                className="absolute object-cover"
-              />
-            </div>
-          )}
+        {file && fileData && fileData.fileType.startsWith("image") && (
+          <div className="relative w-8 h-8 rounded overflow-hidden z-50">
+            <Button
+              variant="ghost"
+              onClick={(e) => {
+                e.stopPropagation();
+                setFile(null);
+              }}
+              className="absolute inset-0 z-20 hover:bg-black/20 hover:text-white"
+            >
+              <X />
+            </Button>
+            <Image
+              src={fileData.uri}
+              fill
+              alt="Uploaded file preview"
+              className="absolute object-cover"
+            />
+          </div>
+        )}
 
-          {file && fileData && !fileData.fileType.startsWith("image") && (
-            <div className="relative w-8 h-8 rounded overflow-hidden z-50">
-              <Button
-                variant="ghost"
-                onClick={() => setFile(null)}
-                className="absolute inset-0 z-20 hover:bg-black/20 hover:text-white"
-              >
-                <X />
-              </Button>
-              <FileIcon strokeWidth={1} className="absolute inset-0 w-8 h-8" />
-            </div>
-          )}
+        {file && fileData && !fileData.fileType.startsWith("image") && (
+          <div className="relative w-8 h-8 rounded overflow-hidden z-50">
+            <Button
+              variant="ghost"
+              onClick={() => setFile(null)}
+              className="absolute inset-0 z-20 hover:bg-black/20 hover:text-white"
+            >
+              <X />
+            </Button>
+            <FileIcon strokeWidth={1} className="absolute inset-0 w-8 h-8" />
+          </div>
+        )}
         <textarea
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Type your message..."
           className="relative flex-1 border-none outline-none resize-none p-2 rounded-md bg-white mb-6"
         />
-       
+
         <input
           type="file"
           onChange={handleFileUpload}
@@ -453,17 +450,14 @@ export default function ChatRoom() {
           htmlFor="file-upload"
           className="cursor-pointer absolute bottom-8 left-8"
         >
-     
           {file === null && (
             <PlusCircle size={30} strokeWidth={1} className="text-primary" />
           )}
         </label>
-  
-    
+
         <Button size="icon" onClick={sendMessage} disabled={loadingAi}>
           <Send />
         </Button>
-
       </div>
     </div>
   );
@@ -487,7 +481,14 @@ export default function ChatRoom() {
 // };
 
 // Sub-component for individual message
-function MessageItem({ message,file }: { message: Message,file:boolean }) {
+// Sub-component for individual message
+export function MessageItem({
+  message,
+  file,
+}: {
+  message: Message;
+  file: boolean;
+}) {
   const markdownRef = useRef<HTMLDivElement>(null); // Reference to capture rendered content
 
   const [slides, setSlides] = useState<SlideContent[]>([]);
@@ -503,52 +504,50 @@ function MessageItem({ message,file }: { message: Message,file:boolean }) {
         if (replyJson) {
           // let lastIndex = message.content.lastIndexOf("`")
           // let replyEnd = message.content.substring(lastIndex + 1,message.content.length);
-          console.log("JSONPART",replyJson)
+
           const start = replyJson.indexOf("{") - 1;
           const end = replyJson.lastIndexOf("}") + 1;
           const jsonString = replyJson.substring(start, end);
           const textReply =
             message.content.split("&&json")[0] + replyJson.substring(end + 1);
 
-          console.log("JSONSTRING",jsonString)
-
           const jsonReply = JSON.parse(jsonString || "{}");
           message.content = textReply;
 
           console.log("Data", jsonReply);
-           
-          if (!!jsonReply?.slides){
+
+          if (!!jsonReply?.slides) {
             setSlides(jsonReply?.slides);
           }
-          if(jsonReply?.excel?.data){
+          if (jsonReply?.excel?.data) {
             setExcelData(jsonReply?.excel);
           }
         }
-      }
-
-      else if (message.role !== "user" && message.content.includes("{")) {
-        const startIndex = message.content.indexOf("{")
-        const endIndex = message.content.lastIndexOf("}")
-        const jsonString = message.content.substring(startIndex - 1, endIndex + 1);
+      } else if (message.role !== "user" && message.content.includes("{")) {
+        const startIndex = message.content.indexOf("{");
+        const endIndex = message.content.lastIndexOf("}");
+        const jsonString = message.content.substring(
+          startIndex - 1,
+          endIndex + 1,
+        );
         const textReply =
-            message.content.substring(0,startIndex) + message.content.substring(endIndex + 1);
+          message.content.substring(0, startIndex) +
+          message.content.substring(endIndex + 1);
 
-          const jsonReply = JSON.parse(jsonString || "{}");
-          message.content = textReply;
+        const jsonReply = JSON.parse(jsonString || "{}");
+        message.content = textReply;
 
-          console.log("Data", jsonReply);
-           
-          if (!!jsonReply?.slides){
-            setSlides(jsonReply?.slides);
-          }
-          if(jsonReply?.excel?.data){
-            setExcelData(jsonReply?.excel);
-          
+        console.log("Data", jsonReply);
+
+        if (!!jsonReply?.slides) {
+          setSlides(jsonReply?.slides);
+        }
+        if (jsonReply?.excel?.data) {
+          setExcelData(jsonReply?.excel);
         }
       }
       setTextMessage(message);
-    } catch(error){
-      console.error(error)
+    } catch {
       setFormatError(true);
     }
   }, [message]);
@@ -557,7 +556,12 @@ function MessageItem({ message,file }: { message: Message,file:boolean }) {
     return null;
   }
   const handleCopy = () => {
-    navigator.clipboard.writeText(message.content);
+    // navigator.clipboard.writeText(message.content);
+    if (markdownRef.current) {
+      navigator.clipboard.writeText(markdownRef.current.innerText);
+    } else {
+      navigator.clipboard.writeText(message.content);
+    }
   };
 
   const handlePrint = () => {
@@ -585,7 +589,7 @@ function MessageItem({ message,file }: { message: Message,file:boolean }) {
   };
 
   if (message.contentType === "file") {
-    return null
+    return null;
   }
 
   return (
@@ -599,17 +603,21 @@ function MessageItem({ message,file }: { message: Message,file:boolean }) {
         className={cn(
           "rounded-lg shadow-lg",
           message.role === "user"
-            ? "max-w-2xl bg-primary text-white py-1 px-3"
+            ? "max-w-2xl bg-primary text-white p-2"
             : "w-full max-w-full bg-white text-black p-4",
         )}
       >
         {/* Capture rendered content */}
-        {
-          file &&
-          <div className={cn("w-fit px-2 py-4 flex flex-row items-center justify-center bg-white/10 rounded-lg text-sm")}>
-          <FileIcon strokeWidth={3} size={15}/><span className="mx-1">file</span>
-        </div>
-        }
+        {file && (
+          <div
+            className={cn(
+              "w-fit p-2 flex flex-row items-center justify-center bg-white/10 rounded-lg text-sm",
+            )}
+          >
+            <FileIcon strokeWidth={3} size={15} />
+            <span className="mx-1">file</span>
+          </div>
+        )}
         <div ref={markdownRef}>
           <Markdown
             remarkPlugins={[remarkGfm, remarkMath]}

@@ -16,7 +16,7 @@ export default function SignInPage() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
-  const [,setCookie] = useCookies(["token"]);
+  const [, setCookie] = useCookies(["token"]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -40,7 +40,7 @@ export default function SignInPage() {
       }
       setCookie("token", data.token);
       router.push("/");
-    } catch  {
+    } catch {
       // console.error(error);
       toast({
         description: (

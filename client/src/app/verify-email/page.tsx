@@ -52,7 +52,11 @@ export default function EmailEntryForm() {
     } catch {
       // console.error(error);
       toast({
-        description: <p className="text-red-500">Couldn&apos;t verify. Ensure you entered a valid email.</p>,
+        description: (
+          <p className="text-red-500">
+            Couldn&apos;t verify. Ensure you entered a valid email.
+          </p>
+        ),
       });
     } finally {
       setLoading(false);
