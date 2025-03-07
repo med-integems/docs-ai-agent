@@ -14,7 +14,7 @@ type User = {
 };
 
 export function useCurrentUser() {
-  const [cookies, setCookie, removeCookie] = useCookies(["token"]); // Ensure token is stored
+  const [cookies, , removeCookie] = useCookies(["token"]); // Ensure token is stored
   const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
 
@@ -27,8 +27,8 @@ export function useCurrentUser() {
     try {
       const decoded: User = jwtDecode(cookies.token);
       setUser(decoded);
-    } catch (error) {
-      console.error("Invalid token:", error);
+    } catch{
+      // console.error("Invalid token:", error);
       removeCookie("token");
       setUser(null);
     }

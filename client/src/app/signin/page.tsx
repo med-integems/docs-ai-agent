@@ -8,7 +8,6 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft, Loader2Icon, LogIn } from "lucide-react";
 import { useCookies } from "react-cookie";
-import AddUserModal from "@/components/AddUserComponent";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -17,7 +16,7 @@ export default function SignInPage() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
-  const [cookies, setCookie] = useCookies(["token"]);
+  const [,setCookie] = useCookies(["token"]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -41,8 +40,8 @@ export default function SignInPage() {
       }
       setCookie("token", data.token);
       router.push("/");
-    } catch (error: any) {
-      console.error(error);
+    } catch  {
+      // console.error(error);
       toast({
         description: (
           <p className="text-red-500">{"Invalid email or password."}</p>

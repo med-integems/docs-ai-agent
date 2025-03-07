@@ -36,7 +36,7 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { Edit, Trash2, Users } from "lucide-react";
+import { Edit, Trash2} from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface User {
@@ -84,7 +84,7 @@ const UsersTable: React.FC<UsersTableProps> = ({ userPromise }) => {
   // Add a new user.
   const handleAddUser = async () => {
     try {
-      let role =
+      const role =
         newUser.email === "mo.kamara@integems.com" ? "superadmin" : "user";
       const res = await fetch("http://127.0.0.1:5000/signup", {
         method: "POST",
@@ -103,12 +103,12 @@ const UsersTable: React.FC<UsersTableProps> = ({ userPromise }) => {
         });
       } else {
         toast({
-          description: <p className="text-red-500">Couldn't add user</p>,
+          description: <p className="text-red-500">Couldn&apos;t add user</p>,
         });
       }
-    } catch (err) {
-      console.error("Error adding user", err);
-      toast({ description: <p className="text-red-500">Couldn't add user</p> });
+    } catch{
+      // console.error("Error adding user", err);
+      toast({ description: <p className="text-red-500">Couldn&apos;t add user</p> });
     }
   };
 
@@ -226,13 +226,13 @@ const UserTableRow: React.FC<{ user: User }> = ({ user: _user }) => {
         });
       } else {
         toast({
-          description: <p className="text-red-500">Couldn't delete user</p>,
+          description: <p className="text-red-500">Couldn&apos;t delete user</p>,
         });
       }
-    } catch (err) {
-      console.error("Error deleting user", err);
+    } catch {
+      // console.error("Error deleting user", err);
       toast({
-        description: <p className="text-red-500">Couldn't delete user</p>,
+        description: <p className="text-red-500">Couldn&apos;t delete user</p>,
       });
     }
   };
@@ -264,13 +264,13 @@ const UserTableRow: React.FC<{ user: User }> = ({ user: _user }) => {
         });
       } else {
         toast({
-          description: <p className="text-red-500">Couldn't update user</p>,
+          description: <p className="text-red-500">Couldn&apos;t update user</p>,
         });
       }
-    } catch (err) {
-      console.error("Error updating user", err);
+    } catch{
+      // console.error("Error updating user", err);
       toast({
-        description: <p className="text-red-500">Couldn't update user</p>,
+        description: <p className="text-red-500">Couldn&apos;t update user</p>,
       });
     }
   };

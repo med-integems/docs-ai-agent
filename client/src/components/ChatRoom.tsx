@@ -1,8 +1,15 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
+import "katex/dist/katex.min.css";
 import {
   FileIcon,
   Loader,
@@ -11,28 +18,22 @@ import {
   Printer,
   Send,
   X,
+  Trash2,
 } from "lucide-react";
+import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import Markdown from "react-markdown";
-import CopyComponent from "./CopyButton";
-import type { Document } from "./ChatRoomSideBar";
-import PowerPointGenerator, { SlideContent } from "./PowerPointGenerator";
-import remarkGfm from "remark-gfm";
 import rehypeKatex from "rehype-katex";
+import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
-import "katex/dist/katex.min.css";
-import { ExcelPreviewModal, ExcelPreviewProps } from "./ExcelPreviewModal";
-import { SheetPreviewModal } from "./SheetPreviewModal";
+import type { Document } from "./ChatRoomSideBar";
+import CopyComponent from "./CopyButton";
 import { DownloadExcelButton } from "./DownloadExcelButton";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { ExcelPreviewProps } from "./ExcelPreviewModal";
+import PowerPointGenerator, { SlideContent } from "./PowerPointGenerator";
+import { SheetPreviewModal } from "./SheetPreviewModal";
 import UnReferencedChatRoom from "./UnReferencedChatRoom";
-import Image from "next/image";
 
 type Message = {
   role: string;
@@ -113,11 +114,11 @@ export default function ChatRoom() {
       if (!response.ok) {
         throw new Error("Failed to fetch messages");
       }
-      let data: Message[] = await response.json();
+      const data: Message[] = await response.json();
 
       setMessages(data);
-    } catch (error) {
-      console.error("Error fetching messages:", error);
+    } catch{
+      // console.error("Error fetching messages:", error);
     } finally {
       setLoadingMessages(false);
     }
@@ -196,11 +197,11 @@ export default function ChatRoom() {
       setFile(null);
 
       setMessages((prev) => [...prev, reply]);
-    } catch (error) {
-      console.error(error);
+    } catch{
+      // console.error(error);
       setMessages((prev) => prev.slice(0, -1)); // Remove unsent message
       setErrorMsg(
-        "Couldn't access service due to traffic issues or the document time limit is exceeded. Try again and re-upload the document again if the issue persists.",
+        "Couldn&apos;t access service due to traffic issues or the document time limit is exceeded. Try again and re-upload the document again if the issue persists.",
       );
     } finally {
       setLoadingAi(false);
@@ -266,9 +267,9 @@ export default function ChatRoom() {
   //       return prev;
   //     });
   //     setErrorMsg(
-  //       "Couldn't access service due to traffic issues or the document time limit is exceeded. Try again and re-upload the document again if the issue persists.",
+  //       "Couldn&apos;t access service due to traffic issues or the document time limit is exceeded. Try again and re-upload the document again if the issue persists.",
   //     );
-  //     // console.error("Error sending message:", error);
+  //     // // console.error("Error sending message:", error);
   //   } finally {
   //     setLoadingAi(false);
   //   }
@@ -287,24 +288,67 @@ export default function ChatRoom() {
     }
   }, [messages]);
 
+  const clearMessages = async () => {
+    if (!document?.documentId) return;
+    
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:5000/messages/sessions/${document.documentId}`,
+        {
+          method: 'DELETE',
+        }
+      );
+      
+      if (!response.ok) {
+        throw new Error('Failed to clear messages');
+      }
+      
+      setMessages([]);
+      toast({
+        description:<p className="text-green-600">Messages cleared successfully.</p>,
+      });
+    } catch {
+      toast({
+        description: <p className="text-red-600">Failed to clear messages</p>,
+      });
+    }
+  };
+
   if (sessionChat) {
     return <UnReferencedChatRoom />;
   }
 
   return (
     <div className="relative flex flex-col w-full mx-auto md:w-[65vw]">
-      <div className=" p-4 rounded flex flex-row items-center gap-2 justify-between">
-        {/* {document?.type == "pdf" && <File/>}
-         {document?.type !== "pdf" && <Book/>} */}
+      <div className="p-4 rounded flex flex-row items-center gap-2 justify-between">
         <h4>{document?.title}</h4>
-        <Button
-          size="sm"
-          variant="outline"
-          className="text-primary border border-primary"
-          onClick={handleSessionChat}
-        >
-          Use unreferenced chat box
-        </Button>
+        <div className="flex gap-2 items-center">
+          <TooltipProvider delayDuration={0}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  size="icon"
+                  variant="outline"
+                  className="text-destructive border border-destructive"
+                  onClick={clearMessages}
+                >
+                  <Trash2 size={18} />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent className="px-2 py-1 text-xs">
+                Clear messages
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          <Button
+            size="sm"
+            variant="outline"
+            className="text-primary border border-primary"
+            onClick={handleSessionChat}
+          >
+            Use unreferenced chat box
+          </Button>
+        </div>
       </div>
 
       {/* Chat area */}
@@ -321,7 +365,7 @@ export default function ChatRoom() {
 
         {!loadingMessages &&
           messages?.map((message, index) => {
-           let file = messages[messages.lastIndexOf(message) - 1]?.contentType == "file"
+           const file = messages[messages.lastIndexOf(message) - 1]?.contentType == "file"
            return  (
             <MessageItem key={index} message={message} file={file} />
           )
@@ -454,29 +498,57 @@ function MessageItem({ message,file }: { message: Message,file:boolean }) {
   useEffect(() => {
     try {
       if (message.role !== "user" && message.content.includes("&&json")) {
-        let splitData = message.content.split("&&json");
-        let replyJson = splitData?.[1];
+        const splitData = message.content.split("&&json");
+        const replyJson = splitData?.[1];
         if (replyJson) {
           // let lastIndex = message.content.lastIndexOf("`")
           // let replyEnd = message.content.substring(lastIndex + 1,message.content.length);
-
-          let start = replyJson.indexOf("{") - 1;
-          let end = replyJson.lastIndexOf("}") + 1;
-          let jsonString = replyJson.substring(start, end);
-          let textReply =
+          console.log("JSONPART",replyJson)
+          const start = replyJson.indexOf("{") - 1;
+          const end = replyJson.lastIndexOf("}") + 1;
+          const jsonString = replyJson.substring(start, end);
+          const textReply =
             message.content.split("&&json")[0] + replyJson.substring(end + 1);
 
-          let jsonReply = JSON.parse(jsonString || "{}");
+          console.log("JSONSTRING",jsonString)
+
+          const jsonReply = JSON.parse(jsonString || "{}");
           message.content = textReply;
 
           console.log("Data", jsonReply);
+           
+          if (!!jsonReply?.slides){
+            setSlides(jsonReply?.slides);
+          }
+          if(jsonReply?.excel?.data){
+            setExcelData(jsonReply?.excel);
+          }
+        }
+      }
 
-          setSlides(jsonReply?.slides);
-          setExcelData(jsonReply?.excel);
+      else if (message.role !== "user" && message.content.includes("{")) {
+        const startIndex = message.content.indexOf("{")
+        const endIndex = message.content.lastIndexOf("}")
+        const jsonString = message.content.substring(startIndex - 1, endIndex + 1);
+        const textReply =
+            message.content.substring(0,startIndex) + message.content.substring(endIndex + 1);
+
+          const jsonReply = JSON.parse(jsonString || "{}");
+          message.content = textReply;
+
+          console.log("Data", jsonReply);
+           
+          if (!!jsonReply?.slides){
+            setSlides(jsonReply?.slides);
+          }
+          if(jsonReply?.excel?.data){
+            setExcelData(jsonReply?.excel);
+          
         }
       }
       setTextMessage(message);
-    } catch (err) {
+    } catch(error){
+      console.error(error)
       setFormatError(true);
     }
   }, [message]);
@@ -534,7 +606,7 @@ function MessageItem({ message,file }: { message: Message,file:boolean }) {
         {/* Capture rendered content */}
         {
           file &&
-          <div className={cn("w-fit p-2 flex flex-row items-center justify-center bg-white/10 rounded-lg text-sm")}>
+          <div className={cn("w-fit px-2 py-4 flex flex-row items-center justify-center bg-white/10 rounded-lg text-sm")}>
           <FileIcon strokeWidth={3} size={15}/><span className="mx-1">file</span>
         </div>
         }

@@ -1,6 +1,4 @@
 "use client";
-
-import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { useCurrentUser } from "@/hooks/use-current-user";

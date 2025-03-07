@@ -24,8 +24,8 @@ export default function CopyComponent({ onCopy }: CopyComponentProps) {
       // await navigator.clipboard.writeText("string to copy");
       setCopied(true);
       setTimeout(() => setCopied(false), 1500);
-    } catch (err) {
-      console.error("Failed to copy text: ", err);
+    } catch {
+      // console.error("Failed to copy text: ", err);
     }
   };
 

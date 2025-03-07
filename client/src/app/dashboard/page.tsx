@@ -32,8 +32,8 @@ const getUsers = async (): Promise<User[]> => {
 
     const users: User[] = await response.json();
     return users;
-  } catch (error) {
-    console.error("Error fetching users:", error);
+  } catch  {
+    // console.error("Error fetching users:", error);
     return []; // Return an empty array on error
   }
 };

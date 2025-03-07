@@ -1,11 +1,10 @@
 "use client";
 
-import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
 import { Select, SelectItem } from "@/components/ui/select";
-import { cn } from "@/lib/utils";
+import { Slider } from "@/components/ui/slider";
+import Image from "next/image";
+import { useState } from "react";
 
 type SliceContent = {
   title: string;
@@ -63,7 +62,7 @@ export default function FontControl({
           <Card key={index} className="p-4">
             <CardContent>
               {slice.image && (
-                <img
+                <Image
                   src={slice.image}
                   alt={slice.title}
                   className="w-full h-48 object-cover rounded-md mb-2"

@@ -1,41 +1,37 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/hooks/use-toast";
-import { cn } from "@/lib/utils";
-import {
-  File,
-  FileIcon,
-  FilePlus,
-  Loader,
-  LoaderPinwheel,
-  Plus,
-  PlusCircle,
-  Printer,
-  RefreshCw,
-  Send,
-  Upload,
-  X,
-} from "lucide-react";
-import { useEffect, useOptimistic, useRef, useState } from "react";
-import Markdown from "react-markdown";
-import CopyComponent from "./CopyButton";
-import PowerPointGenerator, { SlideContent } from "./PowerPointGenerator";
-import remarkGfm from "remark-gfm";
-import rehypeKatex from "rehype-katex";
-import remarkMath from "remark-math";
-import "katex/dist/katex.min.css";
-import { SheetPreviewModal } from "./SheetPreviewModal";
-import { DownloadExcelButton } from "./DownloadExcelButton";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { v4 as uuidv4 } from "uuid";
-import { ExcelPreviewProps } from "./ExcelPreviewModal";
+import { useToast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
+import "katex/dist/katex.min.css";
+import {
+  FileIcon,
+  LoaderPinwheel,
+  Plus,
+  PlusCircle,
+  Printer,
+  Send,
+  Trash2,
+  X
+} from "lucide-react";
 import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
+import Markdown from "react-markdown";
+import rehypeKatex from "rehype-katex";
+import remarkGfm from "remark-gfm";
+import remarkMath from "remark-math";
+import { v4 as uuidv4 } from "uuid";
+import CopyComponent from "./CopyButton";
+import { DownloadExcelButton } from "./DownloadExcelButton";
+import { ExcelPreviewProps } from "./ExcelPreviewModal";
+import PowerPointGenerator, { SlideContent } from "./PowerPointGenerator";
+import { SheetPreviewModal } from "./SheetPreviewModal";
 
 type Message = {
   role: string;
@@ -96,8 +92,8 @@ export default function UnReferencedChatRoom() {
 
       const data: Message[] = await response.json();
       setMessages(data);
-    } catch (error) {
-      console.error("Error fetching messages:", error);
+    } catch {
+      // console.error("Error fetching messages:", error);
     }
   };
 
@@ -176,12 +172,39 @@ export default function UnReferencedChatRoom() {
       setFile(null);
 
       setMessages((prev) => [...prev, reply]);
-    } catch (error) {
-      console.error(error);
+    } catch{
+      // console.error(error);
       setMessages((prev) => prev.slice(0, -1)); // Remove unsent message
       setErrorMsg("Service unavailable. Please try again later.");
     } finally {
       setLoadingAi(false);
+    }
+  };
+
+  const clearMessages = async () => {
+    const sessionId = localStorage.getItem("sessionId");
+    if (!sessionId) return;
+    
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:5000/messages/sessions/${sessionId}`,
+        {
+          method: 'DELETE',
+        }
+      );
+      
+      if (!response.ok) {
+        throw new Error('Failed to clear messages');
+      }
+      
+      setMessages([]);
+      toast({
+        description:<p className="text-green-600">Messages cleared successfully.</p>,
+      });
+    } catch  {
+      toast({
+        description: <p className="text-red-600">Failed to clear messages</p>,
+      });
     }
   };
 
@@ -197,15 +220,35 @@ export default function UnReferencedChatRoom() {
       {/* Header with New Session Button */}
       <div className="p-4 flex flex-row items-center justify-between">
         <h4>Chat Session</h4>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={handleNewSession}
-          className="flex items-center outline-primary text-primary border-primary"
-        >
-          <Plus size={16} />
-          New Session
-        </Button>
+        <div className="flex items-center gap-2">
+          <TooltipProvider delayDuration={0}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={clearMessages}
+                  className="text-destructive border-destructive"
+                >
+                  <Trash2 size={18} />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent className="px-2 py-1 text-xs">
+                Clear messages
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleNewSession
+            }
+            className="flex items-center outline-primary text-primary border-primary"
+          >
+            <Plus size={16} />
+            New Session
+          </Button>
+        </div>
       </div>
 
       {/* Chat Messages */}
@@ -216,7 +259,7 @@ export default function UnReferencedChatRoom() {
      
         {
           messages?.map((message, index) => {
-           let file = messages[messages.lastIndexOf(message) - 1]?.contentType == "file"
+           const file = messages[messages.lastIndexOf(message) - 1]?.contentType == "file"
            return  (
             <MessageItem key={index} message={message} file={file} />
           )
@@ -323,29 +366,54 @@ function MessageItem({ message,file }: { message: Message,file:boolean }) {
   useEffect(() => {
     try {
       if (message.role !== "user" && message.content.includes("&&json")) {
-        let splitData = message.content.split("&&json");
-        let replyJson = splitData?.[1];
+        const splitData = message.content.split("&&json");
+        const replyJson = splitData?.[1];
         if (replyJson) {
           // let lastIndex = message.content.lastIndexOf("`")
           // let replyEnd = message.content.substring(lastIndex + 1,message.content.length);
 
-          let start = replyJson.indexOf("{") - 1;
-          let end = replyJson.lastIndexOf("}") + 1;
-          let jsonString = replyJson.substring(start, end);
-          let textReply =
+          const start = replyJson.indexOf("{") - 1;
+          const end = replyJson.lastIndexOf("}") + 1;
+          const jsonString = replyJson.substring(start, end);
+          const textReply =
             message.content.split("&&json")[0] + replyJson.substring(end + 1);
 
-          let jsonReply = JSON.parse(jsonString || "{}");
+          const jsonReply = JSON.parse(jsonString || "{}");
           message.content = textReply;
 
           console.log("Data", jsonReply);
+           
+          if (!!jsonReply?.slides){
+            setSlides(jsonReply?.slides);
+          }
+          if(jsonReply?.excel?.data){
+            setExcelData(jsonReply?.excel);
+          }
+        }
+      }
 
-          setSlides(jsonReply?.slides);
-          setExcelData(jsonReply?.excel);
+      else if (message.role !== "user" && message.content.includes("{")) {
+        const startIndex = message.content.indexOf("{")
+        const endIndex = message.content.lastIndexOf("}")
+        const jsonString = message.content.substring(startIndex - 1, endIndex + 1);
+        const textReply =
+            message.content.substring(0,startIndex) + message.content.substring(endIndex + 1);
+
+          const jsonReply = JSON.parse(jsonString || "{}");
+          message.content = textReply;
+
+          console.log("Data", jsonReply);
+           
+          if (!!jsonReply?.slides){
+            setSlides(jsonReply?.slides);
+          }
+          if(jsonReply?.excel?.data){
+            setExcelData(jsonReply?.excel);
+          
         }
       }
       setTextMessage(message);
-    } catch (err) {
+    } catch{
       setFormatError(true);
     }
   }, [message]);

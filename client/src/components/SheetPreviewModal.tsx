@@ -7,18 +7,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Table } from "lucide-react";
 import Spreadsheet from "react-spreadsheet";
 import { Button } from "./ui/button";
-import { Table } from "lucide-react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 
 export interface SheetPreviewModalProps {
-  data: any[];
+  data:any[];
   columnLabels: string[];
 }
 

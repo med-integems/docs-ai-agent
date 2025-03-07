@@ -1,5 +1,4 @@
 "use client";
-import { ClerkProvider } from "@clerk/nextjs";
 import { Nunito_Sans } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";

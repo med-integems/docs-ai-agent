@@ -66,7 +66,7 @@ export function ExcelPreviewModal({
   );
 }
 
-function Excel({ data, columnLabels, rowLabels }: ExcelPreviewProps) {
+function Excel({ data, columnLabels, }: ExcelPreviewProps) {
   return (
     <ExcelSP>
       <SheetsDirective>

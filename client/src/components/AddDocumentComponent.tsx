@@ -13,11 +13,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { useCurrentUser } from "@/hooks/use-current-user";
 import { useToast } from "@/hooks/use-toast";
 import { DialogTitle } from "@radix-ui/react-dialog";
 import { Loader2Icon, Plus, Upload } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useCurrentUser } from "@/hooks/use-current-user";
 
 // primar-color #7C3AED
 
@@ -87,11 +87,11 @@ export default function AddDocumentModal() {
         body: payload,
       });
 
-      const data = await response.json();
+      // const data = await response.json();
 
       if (!response.ok) {
-        console.log("Response", data);
-        throw new Error("Couldn't upload document.");
+        // console.log("Response", data);
+        throw new Error("Couldn&apos;t upload document.");
       }
 
       toast({
@@ -102,10 +102,10 @@ export default function AddDocumentModal() {
 
       setFormData({ title: "", url: "", file: null });
       router.refresh();
-    } catch (error) {
-      console.error(error);
+    } catch {
+      // // console.error(error);
       toast({
-        description: <p className="text-red-500">Couldn't add document.</p>,
+        description: <p className="text-red-500">Couldn&apos;t add document.</p>,
       });
     } finally {
       setLoading(false);

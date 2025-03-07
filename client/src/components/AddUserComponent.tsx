@@ -76,12 +76,12 @@ export default function AddUserModal() {
         confirmPassword: "",
       });
       router.refresh();
-    } catch (error: any) {
-      console.error(error);
+    } catch {
+      // console.error(error);
       toast({
         description: (
           <p className="text-red-500">
-            {error.message || "Couldn't sign up user."}
+            Couldn&apos;t sign up user.
           </p>
         ),
       });

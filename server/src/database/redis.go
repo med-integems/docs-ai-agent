@@ -138,3 +138,12 @@ func (r *RedisSessionManager) GetMessages(sessionId string) ([]Message, error) {
 	}
 	return messages, nil
 }
+
+// ClearMessages deletes all chat messages for a given sessionId
+func (r *RedisSessionManager) ClearMessages(sessionId string) error {
+	key := fmt.Sprintf("messages:%s", sessionId)
+	if err := r.client.Del(r.ctx, key).Err(); err != nil {
+		return fmt.Errorf("failed to clear messages: %w", err)
+	}
+	return nil
+}

@@ -13,12 +13,11 @@ import { PiMicrosoftExcelLogoFill } from "react-icons/pi";
 
 export interface DownloadExcelButtonProps {
   columnLabels: string[];
-  rowLabels: string[];
+  rowLabels?: string[];
   data: any[];
 }
 export function DownloadExcelButton({
   columnLabels,
-  rowLabels,
   data,
 }: DownloadExcelButtonProps) {
   const downloadExcel = () => {

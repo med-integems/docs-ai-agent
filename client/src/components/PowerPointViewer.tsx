@@ -1,20 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogFooter,
-  DialogHeader,
   DialogTitle,
-  DialogTrigger,
+  DialogTrigger
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import DocViewer, { DocViewerRenderers } from "react-doc-viewer";
 import PowerPointGenerator, {
-  SlideContent,
-  SlideData,
+  SlideContent
 } from "./PowerPointGenerator";
-import DocViewer, { DocViewerRenderers, IDocument } from "react-doc-viewer";
 
 export default function PowerPointViewer({ fileUrl }: { fileUrl?: string }) {
   const [open, setOpen] = useState(false);

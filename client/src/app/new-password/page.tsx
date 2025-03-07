@@ -3,7 +3,6 @@
 import { useState, useMemo, useId, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -12,7 +11,6 @@ import {
   EyeOffIcon,
   XIcon,
   Loader2Icon,
-  ArrowLeftCircle,
   ArrowLeft,
 } from "lucide-react";
 
@@ -107,8 +105,8 @@ export default function NewPasswordPage() {
         ),
       });
       router.push("/signin");
-    } catch (error: any) {
-      toast({ description: <p className="text-red-500">{error.message}</p> });
+    } catch  {
+      toast({ description: <p className="text-red-500">Couldn&apos;t update password.</p> });
     } finally {
       setLoading(false);
     }

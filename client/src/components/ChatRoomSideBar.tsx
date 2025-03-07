@@ -13,8 +13,8 @@ import {
 
 import {
   Tooltip,
-  TooltipTrigger,
   TooltipContent,
+  TooltipTrigger,
 } from "@/components/ui/tooltip";
 
 import { Button } from "@/components/ui/button";
@@ -43,14 +43,11 @@ import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import {
   Book,
-  Grid,
-  Home,
   HomeIcon,
-  List,
   Loader2,
   LogOut,
   Table,
-  Trash2,
+  Trash2
 } from "lucide-react";
 import Link from "next/link";
 import { use, useState } from "react";
@@ -242,10 +239,10 @@ const SideBarDocumentItem = ({
       }
 
       setDeleted(true);
-    } catch (error) {
-      console.error(error);
+    } catch{
+      // console.error(error);
       toast({
-        description: `<p className="text-red-500">Couldn't delete video !!</p>`,
+        description: `<p className="text-red-500">Couldn&apos;t delete video !!</p>`,
       });
     } finally {
       setLoading(false);

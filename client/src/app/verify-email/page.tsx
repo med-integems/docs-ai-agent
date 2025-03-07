@@ -49,10 +49,10 @@ export default function EmailEntryForm() {
 
       // Redirect user to new-password page with userId
       router.push(`/new-password?userId=${data.userId}`);
-    } catch (error: any) {
-      console.error(error);
+    } catch {
+      // console.error(error);
       toast({
-        description: <p className="text-red-500">{error.message}</p>,
+        description: <p className="text-red-500">Couldn&apos;t verify. Ensure you entered a valid email.</p>,
       });
     } finally {
       setLoading(false);
